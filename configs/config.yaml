@@ -1,0 +1,14 @@
+MODEL:
+  DEVICE: "cpu"
+  NUM_CLASSES: 5
+INPUT:
+  IMAGE_SIZE: 300
+DATASETS:
+  TRAIN: ("coc_770_trainval",)
+  TEST: ("coc_770_test",)
+SOLVER:
+  MAX_ITER: 50000
+  LR_STEPS: [80000, 100000]
+  GAMMA: 0.1
+  BATCH_SIZE: 8
+  LR: 1e-3
