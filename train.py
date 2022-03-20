@@ -49,7 +49,7 @@ def main():
     parser = argparse.ArgumentParser(description='Single Shot MultiBox Detector Training With PyTorch')
     parser.add_argument(
         "--config-file",
-        default="configs/config512.yaml",
+        default="configs/config.yaml",
         metavar="FILE",
         help="path to config file",
         type=str,
