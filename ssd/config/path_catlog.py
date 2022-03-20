@@ -2,7 +2,7 @@ import os
 
 
 class DatasetCatalog:
-    DATA_DIR = '/home/gis/hdd/Model/lingyin/SSD_DEV/ssd/data/datasets'
+    DATA_DIR = '/home/lingyin/go/my_src/CSSD/cssd-model-alpha/ssd/data/datasets'
     DATASETS = {
         'coc_770_train': {
             "data_dir": "COC770",

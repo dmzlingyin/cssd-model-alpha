@@ -1,5 +1,5 @@
 MODEL:
-  DEVICE: "cuda"
+  DEVICE: "cpu"
   NUM_CLASSES: 5
   BACKBONE:
     OUT_CHANNELS: (512, 1024, 512, 256, 256, 256, 256)
