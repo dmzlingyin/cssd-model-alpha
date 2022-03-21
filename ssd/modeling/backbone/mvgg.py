@@ -65,9 +65,10 @@ vgg_base = {
             512, 512, 512],
 }
 
+# 加入Resnet的网络结构
 vgg_resnet_base = {
-    '300': [64, 64, 'M', 128, 128, 'M', 256, 256, 256, 'C', 512, 512, 512, 'M',
-            512, 512, 512],
+    '300': [64, 'R', 64, 'M', 128, 'R', 128, 'M', 256, 'R', 256, 'R', 256, 'C', 512, 'R', 512, 'R', 512, 'M',
+            512, 'R', 512, 'R', 512],
     '512': [64, 'R', 64, 'M', 128, 'R', 128, 'M', 256, 'R', 256, 'R', 256, 'C', 512, 'R', 512, 'R', 512, 'M',
             512, 'R', 512, 'R', 512],
 }
@@ -93,7 +94,7 @@ class BasicBlock(nn.Module):
         if dilation > 1:
             raise NotImplementedError("Dilation > 1 not supported in BasicBlock")
         # Both self.conv1 and self.downsample layers downsample the input when stride != 1
-        self.conv1 = convNxN(inplanes, planes, stride)
+        self.conv1 = convNxN(inplanes, planes)
         self.bn1 = norm_layer(planes)
         self.relu = nn.ReLU(inplace=True)
         self.conv2 = convNxN(planes, planes)
@@ -128,11 +129,11 @@ def convNxN(in_planes, out_planes, kernel_size=3, stride=1, padding=1, groups=1,
 
 
 #*********************************** VGG & RESNET 结合部分 **********************************
-class VGG(nn.Module):
+class MVGG(nn.Module):
     def __init__(self, cfg):
         super().__init__()
         size = cfg.INPUT.IMAGE_SIZE
-        vgg_config = vgg_base[str(size)]
+        vgg_config = vgg_resnet_base[str(size)]
         extras_config = extras_base[str(size)]
 
         self.vgg = nn.ModuleList(add_vgg(vgg_config))
@@ -169,9 +170,9 @@ class VGG(nn.Module):
         return tuple(features)
 
 
-@registry.BACKBONES.register('vgg')
-def vgg(cfg, pretrained=True):
-    model = VGG(cfg)
+@registry.BACKBONES.register('mvgg')
+def vgg(cfg, pretrained=False):
+    model = MVGG(cfg)
     if pretrained:
         model.init_from_pretrain(load_state_dict_from_url(model_urls['vgg']))
     return model
