@@ -25,7 +25,8 @@ class FPN(nn.Module):
 
     def upsample_add(self, x, y):
         _, _, H, W = y.size()
-        return F.interpolate(x, size=(H, W), mode='bilinear', align_corners=True) + y
+        # return F.interpolate(x, size=(H, W), mode='bilinear', align_corners=True) + y
+        return F.interpolate(x, size=(H, W), mode='trilinear', align_corners=True) + y
 
     def forward(self, features):
         c1 = self.latlayer1(features[0])
