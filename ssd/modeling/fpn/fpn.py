@@ -1,4 +1,3 @@
-import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
@@ -24,7 +23,7 @@ class FPN(nn.Module):
         self.smoothlayer6 = nn.Conv2d(256, 256, kernel_size=3, stride=1, padding=1)
 
         # normlayer
-        self.norm = nn.BatchNorm2D
+        self.norm = nn.BatchNorm2d(256)
         self.relu = nn.ReLU(inplace=True)
 
     def upsample_add(self, x, y):
@@ -47,7 +46,7 @@ class FPN(nn.Module):
         c6 = self.latlayer6(features[5])
         c6 = self.norm(c6)
         c7 = features[6]
-        c7 = self.norm(c7)
+        # c7 = self.norm(c7)
 
         p6 = self.upsample_add(c7, c6)
         p5 = self.upsample_add(p6, c5)
